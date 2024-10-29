@@ -15,7 +15,7 @@ import (
 func initLocalRepo(localPath string) error {
 	fmt.Printf("Initializing local repository at %s...\n", localPath)
 
-	if err := os.MkdirAll(localPath, os.ModePerm); err != nil {
+	if err := os.MkdirAll(filepath.Join(filepath.Dir("."), "../../", localPath), os.ModePerm); err != nil {
 		return fmt.Errorf("could not create directory: %v", err)
 	}
 

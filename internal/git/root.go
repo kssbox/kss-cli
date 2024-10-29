@@ -15,18 +15,6 @@ func Run() {
 	fmt.Print("Please enter the local path: ")
 	fmt.Scanln(&localPath)
 
-	fmt.Print("Please enter the remote URL: ")
-	fmt.Scanln(&remoteURL)
-
-	fmt.Print("Please enter the repository name: ")
-	fmt.Scanln(&name)
-
-	fmt.Print("Please enter the repository description: ")
-	fmt.Scanln(&description)
-
-	fmt.Print("Please enter the repository private (true/false): ")
-	fmt.Scanln(&private)
-
 	err := initLocalRepo(localPath)
 	if err != nil {
 		log.Fatalf("Failed to initialize local repository: %v\n", err)
@@ -37,6 +25,15 @@ func Run() {
 		log.Fatalf("Failed to create remote repository: %v\n", err)
 	}
 
+	fmt.Print("Please enter the repository name: ")
+	fmt.Scanln(&name)
+
+	fmt.Print("Please enter the repository description: ")
+	fmt.Scanln(&description)
+
+	fmt.Print("Please enter the repository private (true/false): ")
+	fmt.Scanln(&private)
+
 	err = createGitHubRepo(name, description, private)
 	if err != nil {
 		log.Fatalf("Failed to initialize remote repository: %v\n", err)
@@ -46,6 +43,9 @@ func Run() {
 	if err != nil {
 		log.Fatalf("Failed to add remote repository: %v\n", err)
 	}
+
+	fmt.Print("Please enter the remote URL: ")
+	fmt.Scanln(&remoteURL)
 
 	fmt.Println(config.GlobalConfig.GitHub.APIURL)
 

@@ -1,14 +1,20 @@
 package git
 
 import (
+	"kssbox/kss-cli/kss-cli/internal/config"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"testing"
 )
 
-var tempDir = "./test_dir"
+var tempDir = "./local_test"
 var remoteURL = "https://github.com/kevinbrother/example.git"
+
+// 测试之前统一运行的代码
+func init() {
+	config.InitConfig()
+}
 
 func TestInitLocalRepo(t *testing.T) {
 	// tempDir := t.TempDir() // 创建一个临时目录
