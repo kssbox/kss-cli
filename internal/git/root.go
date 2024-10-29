@@ -4,17 +4,28 @@ import (
 	"fmt"
 	"kssbox/kss-cli/kss-cli/internal/config"
 	"log"
-	"os"
 )
 
 func Run() {
-	if len(os.Args) < 3 {
-		fmt.Println("Usage: go run main.go <local-path> <remote-url>")
-		return
-	}
+	// 改成问答形式
 
-	localPath := os.Args[1]
-	remoteURL := os.Args[2]
+	var localPath, remoteURL, name, description string
+	var private bool
+
+	fmt.Print("Please enter the local path: ")
+	fmt.Scanln(&localPath)
+
+	fmt.Print("Please enter the remote URL: ")
+	fmt.Scanln(&remoteURL)
+
+	fmt.Print("Please enter the repository name: ")
+	fmt.Scanln(&name)
+
+	fmt.Print("Please enter the repository description: ")
+	fmt.Scanln(&description)
+
+	fmt.Print("Please enter the repository private (true/false): ")
+	fmt.Scanln(&private)
 
 	err := initLocalRepo(localPath)
 	if err != nil {
@@ -24,6 +35,11 @@ func Run() {
 	err = addFiles(localPath)
 	if err != nil {
 		log.Fatalf("Failed to create remote repository: %v\n", err)
+	}
+
+	err = createGitHubRepo(name, description, private)
+	if err != nil {
+		log.Fatalf("Failed to initialize remote repository: %v\n", err)
 	}
 
 	err = addRemoteRepo(localPath, remoteURL)

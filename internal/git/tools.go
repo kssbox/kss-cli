@@ -47,17 +47,6 @@ func addFiles(localPath string) error {
 	return nil
 }
 
-// 添加远程仓库
-func addRemoteRepo(localPath, remoteURL string) error {
-	fmt.Printf("Adding remote repository %s...\n", remoteURL)
-
-	cmd := exec.Command("git", "remote", "add", "origin", remoteURL)
-	cmd.Dir = localPath
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
-}
-
 func createGitHubRepo(name, description string, private bool) error {
 	// 创建请求体
 	repo := RepoConfig{
@@ -97,4 +86,23 @@ func createGitHubRepo(name, description string, private bool) error {
 	}
 
 	return nil
+}
+
+// 添加远程仓库，并推送 main 分支
+func addRemoteRepo(localPath, remoteURL string) error {
+	fmt.Printf("Adding remote repository %s...\n", remoteURL)
+
+	cmd := exec.Command("git", "remote", "add", "origin", remoteURL)
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("failed to add remote repository: %v", err)
+	}
+
+	cmd = exec.Command("git", "push", "-u", "origin", "main")
+	cmd.Dir = localPath
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("failed to push to remote repository: %v", err)
+	}
+
+	return nil
+
 }
