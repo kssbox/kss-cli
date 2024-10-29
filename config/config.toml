@@ -1,0 +1,4 @@
+
+[github]
+api_url = "https://api.github.com/user/repos"
+token = "GITHUB_TOKEN"  # 将 "GITHUB_TOKEN" 替换为实际的 GitHub Personal Access Token
