@@ -6,7 +6,7 @@ import (
 	"kssbox/kss-cli/kss-cli/internal/git"
 )
 
-func main() {
+func main2() {
 
 	config.InitConfig()
 

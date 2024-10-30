@@ -44,6 +44,11 @@ func Run() {
 		log.Fatalf("Failed to add remote repository: %v\n", err)
 	}
 
+	err = pushMainBranch(localPath, remoteURL)
+	if err != nil {
+		log.Fatalf("Failed to push main branch: %v\n", err)
+	}
+
 	fmt.Print("Please enter the remote URL: ")
 	fmt.Scanln(&remoteURL)
 

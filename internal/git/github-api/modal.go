@@ -1,4 +1,4 @@
-package git
+package github_api
 
 type RepoConfig struct {
 	Name        string `json:"name"`

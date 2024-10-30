@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"kssbox/kss-cli/kss-cli/internal/config"
+	github_api "kssbox/kss-cli/kss-cli/internal/git/github-api"
 	"net/http"
 	"os"
 	"os/exec"
@@ -15,7 +16,7 @@ import (
 func initLocalRepo(localPath string) error {
 	fmt.Printf("Initializing local repository at %s...\n", localPath)
 
-	if err := os.MkdirAll(filepath.Join(filepath.Dir("."), "../../", localPath), os.ModePerm); err != nil {
+	if err := os.MkdirAll(localPath, os.ModePerm); err != nil {
 		return fmt.Errorf("could not create directory: %v", err)
 	}
 
@@ -48,8 +49,8 @@ func addFiles(localPath string) error {
 }
 
 func createGitHubRepo(name, description string, private bool) error {
-	// 创建请求体
-	repo := RepoConfig{
+	// Create request body
+	repo := github_api.RepoConfig{
 		Name:        name,
 		Description: description,
 		Private:     private,
@@ -74,6 +75,9 @@ func createGitHubRepo(name, description string, private bool) error {
 
 	// 发送请求
 	client := &http.Client{}
+
+	// 打印请求信息
+	fmt.Printf("Request: %v\n", req)
 	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf("failed to send HTTP request: %v", err)
@@ -88,21 +92,21 @@ func createGitHubRepo(name, description string, private bool) error {
 	return nil
 }
 
-// 添加远程仓库，并推送 main 分支
+// 进入到 localPath 目录下添加远程仓库
 func addRemoteRepo(localPath, remoteURL string) error {
 	fmt.Printf("Adding remote repository %s...\n", remoteURL)
 
 	cmd := exec.Command("git", "remote", "add", "origin", remoteURL)
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to add remote repository: %v", err)
-	}
-
-	cmd = exec.Command("git", "push", "-u", "origin", "main")
 	cmd.Dir = localPath
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to push to remote repository: %v", err)
+	return cmd.Run()
+}
+
+// 推送 main 分支
+func pushMainBranch(localPath, branch string) error {
+	if branch == "" {
+		branch = "main"
 	}
-
-	return nil
-
+	cmd := exec.Command("git", "push", "origin", branch)
+	cmd.Dir = localPath
+	return cmd.Run()
 }
