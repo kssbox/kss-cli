@@ -39,7 +39,7 @@ func Run() {
 		log.Fatalf("Failed to initialize remote repository: %v\n", err)
 	}
 
-	remoteURL = config.GlobalConfig.GitHub.Repos + "/" + config.GlobalConfig.GitHub.Owner + "/" + name
+	remoteURL = config.GlobalConfig.GitHub.Repos + ":" + config.GlobalConfig.GitHub.Owner + "/" + name + ".git"
 
 	err = addRemoteRepo(localPath, remoteURL)
 	if err != nil {
