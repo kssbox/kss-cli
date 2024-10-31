@@ -10,9 +10,9 @@ func init() {
 }
 
 func TestCreateRepo(t *testing.T) {
-	CreateRepo("test", "test", false)
+	CreateRepo("kss-cli", "test", true)
 }
 
 func TestDeleteRepo(t *testing.T) {
-	DeleteRepo("test")
+	DeleteRepo("Kevinbrother", "local_test")
 }
