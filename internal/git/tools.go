@@ -1,12 +1,8 @@
 package git
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"kssbox/kss-cli/kss-cli/internal/config"
 	github_api "kssbox/kss-cli/kss-cli/internal/git/github-api"
-	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -49,47 +45,7 @@ func addFiles(localPath string) error {
 }
 
 func createGitHubRepo(name, description string, private bool) error {
-	// Create request body
-	repo := github_api.RepoConfig{
-		Name:        name,
-		Description: description,
-		Private:     private,
-	}
-
-	// 将请求数据转换为 JSON
-	jsonData, err := json.Marshal(repo)
-	if err != nil {
-		return fmt.Errorf("failed to marshal JSON: %v", err)
-	}
-
-	// 创建 HTTP 请求
-	req, err := http.NewRequest("POST", config.GlobalConfig.GitHub.APIURL, bytes.NewBuffer(jsonData))
-	if err != nil {
-		return fmt.Errorf("failed to create HTTP request: %v", err)
-	}
-
-	// 设置请求头，包括认证信息和请求类型
-	req.Header.Set("Authorization", "Bearer "+config.GlobalConfig.GitHub.Token)
-	req.Header.Set("Accept", "application/vnd.github.v3+json")
-	req.Header.Set("Content-Type", "application/json")
-
-	// 发送请求
-	client := &http.Client{}
-
-	// 打印请求信息
-	fmt.Printf("Request: %v\n", req)
-	resp, err := client.Do(req)
-	if err != nil {
-		return fmt.Errorf("failed to send HTTP request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	// 检查响应状态
-	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("failed to create repository, status: %s", resp.Status)
-	}
-
-	return nil
+	return github_api.CreateRepo(name, description, private)
 }
 
 // 进入到 localPath 目录下添加远程仓库

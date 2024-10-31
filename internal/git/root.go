@@ -39,6 +39,8 @@ func Run() {
 		log.Fatalf("Failed to initialize remote repository: %v\n", err)
 	}
 
+	remoteURL = config.GlobalConfig.GitHub.Repos + "/" + config.GlobalConfig.GitHub.Owner + "/" + name
+
 	err = addRemoteRepo(localPath, remoteURL)
 	if err != nil {
 		log.Fatalf("Failed to add remote repository: %v\n", err)
@@ -48,11 +50,6 @@ func Run() {
 	if err != nil {
 		log.Fatalf("Failed to push main branch: %v\n", err)
 	}
-
-	fmt.Print("Please enter the remote URL: ")
-	fmt.Scanln(&remoteURL)
-
-	fmt.Println(config.GlobalConfig.GitHub.APIURL)
 
 	fmt.Println("Git repository initialized and remote added successfully!")
 }

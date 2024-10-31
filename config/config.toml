@@ -1,5 +1,9 @@
-
 [github]
 api_url = "https://api.github.com/user/repos"
-token = "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"  # 将 "GITHUB_TOKEN" 替换为实际的 GitHub Personal Access Token
+token = "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"  
+owner = "Kevinbrother"
+repos = "git@github.com"
 
+[github.apis]
+add_repos = "https://api.github.com/user/repos/"
+delete_repos = "https://api.github.com/repos/"
