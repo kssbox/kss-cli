@@ -16,5 +16,5 @@ func CreateRepo(name, description string, private bool) error {
 
 // 删除仓库
 func DeleteRepo(OWNER, REPO string) error {
-	return GitHubAPI("DELETE", config.GlobalConfig.GitHub.GitHubAPIs.DeleteRepos+OWNER+"/"+REPO, nil)
+	return GitHubAPI("DELETE", config.GlobalConfig.GitHub.GitHubAPIs.DeleteRepos+"/"+OWNER+"/"+REPO, nil)
 }

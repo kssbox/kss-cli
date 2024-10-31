@@ -11,6 +11,6 @@ type Config struct {
 		GitHubAPIs struct {
 			AddRepos    string `toml:"add_repos"`
 			DeleteRepos string `toml:"delete_repos"`
-		} `toml:"github.apis"`
+		} `toml:"apis"` // 修改为 "apis" 以对应 config.toml 中的定义
 	} `toml:"github"`
 }

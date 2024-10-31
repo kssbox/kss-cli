@@ -18,6 +18,8 @@ import (
 // data 符合 json 的结构体
 func GitHubAPI(method, url string, data interface{}) error {
 
+	fmt.Printf("GitHubAPI: %v, %v, %v\n", method, url, data)
+
 	// 将请求数据转换为 JSON
 	jsonData, err := json.Marshal(data)
 	if err != nil {
