@@ -41,9 +41,16 @@ func Run() {
 
 	remoteURL = config.GlobalConfig.GitHub.Repos + ":" + config.GlobalConfig.GitHub.Owner + "/" + name + ".git"
 
+	// remoteURL = "https://github.com/KevinBrother/local_test.git"
+
 	err = addRemoteRepo(localPath, remoteURL)
 	if err != nil {
 		log.Fatalf("Failed to add remote repository: %v\n", err)
+	}
+
+	err = initCommit(localPath)
+	if err != nil {
+		log.Fatalf("Failed to init commit: %v\n", err)
 	}
 
 	err = pushMainBranch(localPath, remoteURL)

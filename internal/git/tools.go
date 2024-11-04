@@ -50,11 +50,39 @@ func createGitHubRepo(name, description string, private bool) error {
 
 // 进入到 localPath 目录下添加远程仓库
 func addRemoteRepo(localPath, remoteURL string) error {
+	fmt.Println(localPath)
 	fmt.Printf("Adding remote repository %s...\n", remoteURL)
 
 	cmd := exec.Command("git", "remote", "add", "origin", remoteURL)
 	cmd.Dir = localPath
+	fmt.Println(cmd.Args)
 	return cmd.Run()
+}
+
+// git remote add origin git@github.com:KevinBrother/local_test.git
+// git remote add origin git@github.com:KevinBrother/local_test.git
+
+func initCommit(localPath string) error {
+
+	cmd := exec.Command("git", "add", ".")
+	cmd.Dir = localPath
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("failed to add files: %v", err)
+	}
+
+	cmd = exec.Command("git", "commit", "-m", "initial commit")
+	cmd.Dir = localPath
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("failed to commit: %v", err)
+	}
+
+	return nil
 }
 
 // 推送 main 分支
@@ -62,7 +90,8 @@ func pushMainBranch(localPath, branch string) error {
 	if branch == "" {
 		branch = "main"
 	}
-	cmd := exec.Command("git", "push", "origin", branch)
+	cmd := exec.Command("git", "push", "-u", "origin", "main")
 	cmd.Dir = localPath
+	fmt.Println(cmd.Args)
 	return cmd.Run()
 }
