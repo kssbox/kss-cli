@@ -12,7 +12,13 @@ var GlobalConfig Config
 
 func InitConfig() {
 	// 从当前目录开始判断一直到 / 目录
-	for dir := "."; dir != "/"; dir = filepath.Dir(dir) {
+	curDir, err := os.Getwd() // 获取当前目录
+	if err != nil {
+		log.Fatalf("Failed to load user config file: %v", err)
+		return
+	}
+
+	for dir := curDir; dir != "" && dir != string(os.PathSeparator); dir = filepath.Dir(dir) {
 		path := filepath.Join(dir, ".kssrc")
 		if _, err := os.Stat(path); err == nil {
 			// 找到 .kssrc 文件，加载配置
