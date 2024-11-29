@@ -16,3 +16,7 @@ func TestCreateRepo(t *testing.T) {
 func TestDeleteRepo(t *testing.T) {
 	DeleteRepo("Kevinbrother", "local_test")
 }
+
+func TestGetOrganizations(t *testing.T) {
+	GetOrganizations()
+}
