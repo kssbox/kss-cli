@@ -7,3 +7,4 @@ repos = "git@github.com"
 [github.apis]
 add_repos = "https://api.github.com/user/repos"
 delete_repos = "https://api.github.com/repos"
+get_organizations = "https://api.github.com/organizations"

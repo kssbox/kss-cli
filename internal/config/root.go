@@ -51,6 +51,7 @@ func InitConfig() {
 	[github.apis]
 	add_repos = "https://api.github.com/user/repos"
 	delete_repos = "https://api.github.com/repos"
+	get_organizations = "https://api.github.com/organizations"
 	`
 
 	// 创建 .kssrc 文件并写入默认值

@@ -18,3 +18,8 @@ func CreateRepo(name, description string, private bool) error {
 func DeleteRepo(OWNER, REPO string) error {
 	return GitHubAPI("DELETE", config.GlobalConfig.GitHub.GitHubAPIs.DeleteRepos+"/"+OWNER+"/"+REPO, nil)
 }
+
+// 获取 organizations 仓库
+func GetOrganizations() error {
+	return GitHubAPI("GET", config.GlobalConfig.GitHub.GitHubAPIs.GetOrganizations, nil)
+}
