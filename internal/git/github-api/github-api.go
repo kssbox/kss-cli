@@ -16,22 +16,22 @@ import (
 
 // 接受 方法、url、请求体
 // data 符合 json 的结构体
-func GitHubAPI(method, url string, data interface{}) error {
+func GitHubAPI(method, url string, data interface{}) (*http.Response, error) {
 
 	fmt.Printf("GitHubAPI: %v, %v, %v\n", method, url, data)
 
 	// 将请求数据转换为 JSON
 	jsonData, err := json.Marshal(data)
 	if err != nil {
-		return fmt.Errorf("failed to marshal JSON: %v", err)
+		return nil, fmt.Errorf("failed to marshal JSON: %v", err)
 	}
 
 	// 创建 HTTP 请求
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonData))
 	if err != nil {
-		return fmt.Errorf("failed to create HTTP request: %v", err)
+		return nil, fmt.Errorf("failed to create HTTP request: %v", err)
 	}
-
+	fmt.Printf("token: %v\n", config.GlobalConfig.GitHub.Token)
 	// 设置请求头，包括认证信息和请求类型
 	req.Header.Set("Authorization", "Bearer "+config.GlobalConfig.GitHub.Token)
 	req.Header.Set("Accept", "application/vnd.github.v3+json")
@@ -44,14 +44,9 @@ func GitHubAPI(method, url string, data interface{}) error {
 	fmt.Printf("Request: %v\n", req)
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("failed to send HTTP request: %v", err)
+		return nil, fmt.Errorf("failed to send HTTP request: %v", err)
 	}
 	defer resp.Body.Close()
 
-	// 检查响应状态
-	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("failed to create repository, status: %s", resp.Status)
-	}
-
-	return nil
+	return resp, nil
 }
