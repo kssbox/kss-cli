@@ -45,7 +45,8 @@ func addFiles(localPath string) error {
 }
 
 func createGitHubRepo(name, description string, private bool) error {
-	return github_api.CreateRepo(name, description, private)
+	_, err := github_api.CreateRepo(name, description, private)
+	return err
 }
 
 // 进入到 localPath 目录下添加远程仓库

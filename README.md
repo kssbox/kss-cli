@@ -18,3 +18,9 @@ go build -o kss-cli./cmd/app/main.go
 ## 使用
 
 运行二进制文件后，会在用户目录下生成一个 .kssrc 文件，用于存储配置信息，修改成自己的信息即可
+
+## 构建所有版本
+
+``` bash
+./build_all.sh
+```
